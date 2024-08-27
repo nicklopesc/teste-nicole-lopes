@@ -1,9 +1,12 @@
-import { Typography } from "@mui/material";
+import { Stack } from "@mui/material";
+import Map from "../modules/map/components/Map";
 
-export default function Home(){
-    return(
-        <>
-        <Typography>Home</Typography>
-        </>
-    )
-}
+const Home: React.FC = () => {
+  return (
+    <Stack>
+      <Map />
+    </Stack>
+  );
+};
+
+export default Home;
