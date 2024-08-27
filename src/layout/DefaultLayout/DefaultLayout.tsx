@@ -88,7 +88,12 @@ export function DefaultLayout() {
             <ListItemText primary="Mapa de Equipamentos" />
           </ListItemButton>
 
-          <ListItemButton sx={{ marginTop: "5px" }}>
+          <ListItemButton
+            component={Link}
+            to={PathConstants.HISTORICEQUIPMENT}
+            onClick={handleDrawerToggle}
+            sx={getItemStyle(PathConstants.HISTORICEQUIPMENT)}
+          >
             <ListItemText primary="Histórico de Equipamentos" />
           </ListItemButton>
         </List>
