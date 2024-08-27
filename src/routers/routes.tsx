@@ -1,8 +1,9 @@
 import { RouteObject } from "react-router-dom";
 import Login from "../pages/Login";
 import DefaultLayout from "../layout/DefaultLayout/DefaultLayout";
-import Home from "../pages/Home";
+
 import { PathConstants } from "./pathConstants";
+import Map from "../modules/map/components/Map";
 
 export const routes: RouteObject[] = [
   {
@@ -14,8 +15,8 @@ export const routes: RouteObject[] = [
     element: <DefaultLayout />,
     children: [
       {
-        path: PathConstants.HOME,
-        element: <Home />,
+        path: PathConstants.MAP,
+        element: <Map />,
       },
     ],
   },
