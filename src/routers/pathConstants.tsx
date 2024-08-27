@@ -3,4 +3,6 @@ export const PathConstants = {
   PROJECT: "/",
   SAIR: "/",
   MAP: "/map",
+  // EquipmentMap
+  HISTORICEQUIPMENT: "/historico-equipamento",
 };
