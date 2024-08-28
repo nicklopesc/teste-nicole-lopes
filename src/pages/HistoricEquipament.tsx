@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
   TextField,
   MenuItem,
@@ -22,20 +22,17 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import EquipmentDetail from "../modules/historic/components/EquipmentDetail";
-
-import equipmentsData from "../../data/equipment.json";
-import equipmentModelsData from "../../data/equipmentModel.json";
-import equipmentStatesData from "../../data/equipmentState.json";
-import stateHistoryData from "../../data/equipmentStateHistory.json";
-import React from "react";
+import { useEquipment } from "../contexts/EquipmentContext";
 
 export default function HistoricEquipament() {
+  const { equipments, states, stateHistory, equipmentModels, loading, error } =
+    useEquipment();
   const [selectedEquipmentId, setSelectedEquipmentId] = useState<string | null>(
     null
   );
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterState] = useState("");
-  const [filterModel, setFilterModel] = useState("");
+  const [filterState, setFilterState] = useState<string>("");
+  const [filterModel, setFilterModel] = useState<string>("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -45,6 +42,10 @@ export default function HistoricEquipament() {
 
   const handleFilterModel = (event: SelectChangeEvent<string>) => {
     setFilterModel(event.target.value);
+  };
+
+  const handleFilterState = (event: SelectChangeEvent<string>) => {
+    setFilterState(event.target.value);
   };
 
   const handleChangePage = (
@@ -62,19 +63,17 @@ export default function HistoricEquipament() {
   };
 
   const filteredEquipments = useMemo(() => {
-    return equipmentsData.filter((equipment) => {
-      const equipmentModel = equipmentModelsData.find(
+    return equipments.filter((equipment) => {
+      const equipmentModel = equipmentModels.find(
         (model) => model.id === equipment.equipmentModelId
       );
-      const state = equipmentStatesData.find(
-        (state) => state.id === filterState
-      );
+      const state = states.find((state) => state.id === filterState);
 
       return (
         equipment.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (filterModel ? equipmentModel?.id === filterModel : true) &&
         (filterState
-          ? stateHistoryData.some(
+          ? stateHistory.some(
               (history) =>
                 history.equipmentId === equipment.id &&
                 history.states.some((s) => s.equipmentStateId === filterState)
@@ -82,7 +81,15 @@ export default function HistoricEquipament() {
           : true)
       );
     });
-  }, [searchTerm, filterModel, filterState]);
+  }, [
+    searchTerm,
+    filterModel,
+    filterState,
+    equipments,
+    equipmentModels,
+    states,
+    stateHistory,
+  ]);
 
   const handleRowClick = (equipmentId: string) => {
     setSelectedEquipmentId(
@@ -95,7 +102,7 @@ export default function HistoricEquipament() {
   );
 
   const calculateProductivity = (equipmentId: string) => {
-    const equipmentHistory = stateHistoryData.find(
+    const equipmentHistory = stateHistory.find(
       (history) => history.equipmentId === equipmentId
     );
 
@@ -103,9 +110,7 @@ export default function HistoricEquipament() {
 
     const totalHours = 24;
     const productiveHours = equipmentHistory.states.reduce((sum, state) => {
-      const stateDetail = equipmentStatesData.find(
-        (s) => s.id === state.equipmentStateId
-      );
+      const stateDetail = states.find((s) => s.id === state.equipmentStateId);
       if (stateDetail?.name === "Operando") {
         return sum + (1 / equipmentHistory.states.length) * totalHours;
       }
@@ -114,6 +119,14 @@ export default function HistoricEquipament() {
 
     return (productiveHours / totalHours) * 100;
   };
+
+  if (loading) return <Typography variant="h6">Loading...</Typography>;
+  if (error)
+    return (
+      <Typography variant="h6" color="error">
+        {error}
+      </Typography>
+    );
 
   return (
     <Box sx={{ padding: "16px" }}>
@@ -134,9 +147,25 @@ export default function HistoricEquipament() {
             label="Filtrar por Modelo"
           >
             <MenuItem value="">Todos</MenuItem>
-            {equipmentModelsData.map((model) => (
+            {equipmentModels.map((model) => (
               <MenuItem key={model.id} value={model.id}>
                 {model.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl variant="outlined" sx={{ flex: 1 }}>
+          <InputLabel>Filtrar por Estado</InputLabel>
+          <Select
+            value={filterState}
+            onChange={handleFilterState}
+            label="Filtrar por Estado"
+          >
+            <MenuItem value="">Todos</MenuItem>
+            {states.map((state) => (
+              <MenuItem key={state.id} value={state.id}>
+                {state.name}
               </MenuItem>
             ))}
           </Select>
@@ -163,16 +192,16 @@ export default function HistoricEquipament() {
                 {filteredEquipments
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((equipment) => {
-                    const equipmentModel = equipmentModelsData.find(
+                    const equipmentModel = equipmentModels.find(
                       (model) => model.id === equipment.equipmentModelId
                     );
-                    const currentState = stateHistoryData.find(
+                    const currentState = stateHistory.find(
                       (history) =>
                         history.equipmentId === equipment.id &&
                         history.states.length > 0
                     )?.states[0];
                     const state = currentState
-                      ? equipmentStatesData.find(
+                      ? states.find(
                           (state) => state.id === currentState.equipmentStateId
                         )
                       : null;
@@ -216,8 +245,8 @@ export default function HistoricEquipament() {
                               {selectedEquipment && (
                                 <EquipmentDetail
                                   equipment={selectedEquipment}
-                                  stateHistory={stateHistoryData}
-                                  states={equipmentStatesData}
+                                  stateHistory={stateHistory}
+                                  states={states}
                                   productivity={calculateProductivity(
                                     selectedEquipment.id
                                   )}

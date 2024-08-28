@@ -4,6 +4,7 @@ import ReactDOMClient from "react-dom/client";
 import "./index.css";
 import { routes } from "./routers";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { EquipmentProvider } from "./contexts/EquipmentContext";
 
 const router = createBrowserRouter(routes);
 
@@ -13,6 +14,8 @@ const root = ReactDOMClient.createRoot(
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <EquipmentProvider>
+      <RouterProvider router={router} />
+    </EquipmentProvider>
   </React.StrictMode>
 );
