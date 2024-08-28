@@ -1,4 +1,4 @@
-# Teste técnico para desenvolvedor(a) frond-end (Vue js)
+# Teste técnico para desenvolvedor(a) frond-end
 
 Este projeto é uma aplicação web para monitoramento de equipamentos em operações florestais. A aplicação exibe dados de posições e estados dos equipamentos, coletados via GPS e atualizados periodicamente. Ela permite visualizar as localizações dos equipamentos em um mapa e acompanhar seu histórico de estados (Operando, Parado, ou em Manutenção). A interface é projetada para fornecer uma visão clara e acessível dos dados para os gestores da operação.
 
