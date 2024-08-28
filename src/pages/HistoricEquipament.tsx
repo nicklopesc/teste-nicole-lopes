@@ -154,22 +154,6 @@ export default function HistoricEquipament() {
             ))}
           </Select>
         </FormControl>
-
-        <FormControl variant="outlined" sx={{ flex: 1 }}>
-          <InputLabel>Filtrar por Estado</InputLabel>
-          <Select
-            value={filterState}
-            onChange={handleFilterState}
-            label="Filtrar por Estado"
-          >
-            <MenuItem value="">Todos</MenuItem>
-            {states.map((state) => (
-              <MenuItem key={state.id} value={state.id}>
-                {state.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
       </Box>
 
       {filteredEquipments.length === 0 ? (
