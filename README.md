@@ -54,12 +54,12 @@ Senha: password
 
 - - **`src/`**: Código-fonte da aplicação.
     <!-- - **`components/`**: Contém componentes reutilizáveis em toda a aplicação. -->
-    - **`layout/`**: Contém o layout principal da aplicação.
+  - **`layout/`**: Contém o layout principal da aplicação.
   - **`pages/`**: Páginas principais da aplicação.
   - **`modules/components/`**: Componentes específicos para páginas principais.
   - **`context/`**: Gerencia o estado da aplicação.
 
-## Gerenciamento de Roteamento
+## Gerenciamento de Rotas
 
 A aplicação utiliza uma camada de roteamento para gerenciar a navegação entre diferentes páginas sem recarregar a página inteira. Isso é fundamental em uma SPA (Single Page Application) e oferece várias vantagens:
 
@@ -108,9 +108,3 @@ A aplicação é centrada em dois componentes principais que são essenciais par
 - `handleChangePage(event: React.MouseEvent<HTMLButtonElement> | null, newPage: number)`: Altera a página de resultados.
 - `handleChangeRowsPerPage(event: React.ChangeEvent<HTMLInputElement>)`: Altera o número de linhas por página.
 - `calculateProductivity(equipmentId: string)`: Calcula a porcentagem de produtividade com base no histórico de estados do equipamento.
-
-## Imagens da aplicação
-
-![alt text](image-2.png)
-![alt text](image-1.png)
-![alt text](image.png)
