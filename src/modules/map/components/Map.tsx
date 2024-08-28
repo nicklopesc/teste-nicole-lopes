@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { Stack, Typography } from "@mui/material";
 
 const equipmentUrl = "/data/equipment.json";
 const equipmentStateUrl = "/data/equipmentState.json";
@@ -46,7 +47,7 @@ interface PositionHistory {
   positions: { date: string; lat: number; lon: number }[];
 }
 
-const Map: React.FC = () => {
+export default function Map() {
   const [equipment, setEquipment] = useState<Equipment[]>([]);
   const [equipmentStates, setEquipmentStates] = useState<EquipmentState[]>([]);
   const [equipmentModels, setEquipmentModels] = useState<EquipmentModel[]>([]);
@@ -56,7 +57,6 @@ const Map: React.FC = () => {
   );
 
   useEffect(() => {
-    // Função para carregar todos os dados
     const loadData = async () => {
       try {
         const equipmentResponse = await fetch(equipmentUrl);
@@ -88,7 +88,6 @@ const Map: React.FC = () => {
     loadData();
   }, []);
 
-  // Processar os dados para vincular estados e posições
   const getEquipmentState = (equipmentId: string, date: string) => {
     const stateHistory = stateHistories.find(
       (sh) => sh.equipmentId === equipmentId
@@ -118,9 +117,9 @@ const Map: React.FC = () => {
 
   return (
     <MapContainer
-      center={[-19.126536, -45.947756]} // Ajuste o centro conforme necessário
+      center={[-19.126536, -45.947756]}
       zoom={13}
-      style={{ height: "100vh", width: "100%" }}
+      style={{ height: "85vh", width: "100%" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -144,20 +143,26 @@ const Map: React.FC = () => {
             icon={customIcon}
           >
             <Popup>
-              <div>
-                <h3>{equip.name}</h3>
-                <p>
+              <Stack>
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  sx={{ marginBottom: "-50px" }}
+                >
+                  {equip.name}
+                </Typography>
+                <Typography variant="caption">
                   Estado:{" "}
                   {latestState ? latestState.name : "Estado não encontrado"}
-                </p>
-                <p>Data: {new Date(latestPosition.date).toLocaleString()}</p>
-              </div>
+                </Typography>
+                <Typography variant="caption">
+                  Data/Hora: {new Date(latestPosition.date).toLocaleString()}
+                </Typography>
+              </Stack>
             </Popup>
           </Marker>
         );
       })}
     </MapContainer>
   );
-};
-
-export default Map;
+}

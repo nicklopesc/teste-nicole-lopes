@@ -1,11 +1,9 @@
 import { RouteObject } from "react-router-dom";
 import Login from "../pages/Login";
 import DefaultLayout from "../layout/DefaultLayout/DefaultLayout";
-
 import { PathConstants } from "./pathConstants";
-import Map from "../modules/map/components/Map";
-import EquipmentList from "../modules/historic/components/EquipmentList";
 import HistoricEquipament from "../pages/HistoricEquipament";
+import MapPage from "../pages/MapPage";
 
 export const routes: RouteObject[] = [
   {
@@ -18,7 +16,7 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: PathConstants.MAP,
-        element: <Map />,
+        element: <MapPage />,
       },
       {
         path: PathConstants.HISTORICEQUIPMENT,
