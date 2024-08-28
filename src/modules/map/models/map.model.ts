@@ -26,3 +26,17 @@ export interface EquipmentStateHistory {
     equipmentStateId: string;
   }[];
 }
+
+export interface EquipmentModel {
+  id: string;
+  name: string;
+  hourlyEarnings: {
+    equipmentStateId: string;
+    value: number;
+  }[];
+}
+
+export interface PositionHistory {
+  equipmentId: string;
+  positions: EquipmentPosition[];
+}
