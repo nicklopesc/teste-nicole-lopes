@@ -1,207 +1,110 @@
-# Teste Frontend V4
+# Teste técnico para desenvolvedor(a) frond-end
 
-![Aiko](img/aiko.png)
+Este projeto é uma aplicação web para monitoramento de equipamentos em operações florestais. A aplicação exibe dados de posições e estados dos equipamentos, coletados via GPS e atualizados periodicamente. Ela permite visualizar as localizações dos equipamentos em um mapa e acompanhar seu histórico de estados (Operando, Parado, ou em Manutenção). A interface é projetada para fornecer uma visão clara e acessível dos dados para os gestores da operação.
 
-Neste teste serão avaliados seus conhecimentos em Javascript, HTML e CSS, a criatividade e metodologia aplicada no desenvolvimento, a usabilidade e design da aplicação final.
+## Tecnologias Utilizadas
 
-## O Desafio
+- React: Biblioteca JavaScript para construção de interfaces de usuário.
+- TypeScript: Superset de JavaScript que adiciona tipos estáticos, proporcionando maior segurança e robustez ao código.
+- MUI React: Biblioteca de componentes React para uma interface consistente e moderna.
+- Leaflet: Biblioteca para exibição de mapas interativos e visualização de dados geoespaciais.
+- ECharts: Biblioteca para criação de gráficos e dashboards interativos.
+- Axios: Cliente HTTP para chamadas à API.
+- Context: Mecanismo de gerenciamento de estado global no React.
+- Vite: Ferramenta de build rápida para desenvolvimento eficiente com React.
 
-Você é o desenvolvedor frontend de uma empresa que coleta dados de equipamentos utilizados em uma operação florestal. Dentre esses dados estão o histórico de posições e estados desses equipamentos. O estado de um equipamento é utilizado para saber o que o equipamento estava fazendo em um determinado momento, seja *Operando*, *Parado* ou em *Manutenção*. O estado é alterado de acordo com o uso do equipamento na operação, já a posição do equipamento é coletada através do GPS e é enviada e armazenada de tempo em tempo pela aplicação.
+## Instalação e Configuração
 
-Seu objetivo é, de posse desses dados, desenvolver o frontend de aplicação web que trate e exibida essas informações para os gestores da operação.
+1 - Abra o vs code
 
-## Requisitos
+2 - No canto esquerdo superior clique em Terminal
 
-Esses requisitos são obrigatórios e devem ser desenvolvidos para a entrega do teste.
+Em seguida, no terminal digite:
 
-* **Posições dos equipamentos**: Exibir no mapa os equipamentos nas suas posições mais recentes.
+3 - Clone o repositório com o comando
+git clone https://github.com/nicklopesc/teste-nicole-lopes.git
 
-* **Estado atual do equipamento**: Visualizar o estado mais recente dos equipamentos. Exemplo: mostrando no mapa, como um pop-up, mouse hover sobre o equipamento, etc.
+4 - Navegue até o diretório do projeto com:
+cd teste-nicole-lopes
 
-* **Histórico de estados do equipamento**: Permitir a visualização do histórico de estados de um equipamento específico ao clicar sobre o equipamento.
+5 - Instale as dependências executando:
+npm install
 
-## Dados
+6 - Execute o projeto com:
+npm run dev
 
-Todos os dados que precisa para desenvolver os requisitos estão na pasta `data/` no formato `json` e são detalhados a seguir.
+7 - Abra o projeto no navegador
 
-```sh
-data/
-|- equipment.json
-|- equipmentModel.json
-|- equipmentPositionHistory.json
-|- equipmentState.json
-|- equipmentStateHistory.json
-```
+## Acesso ao login
 
-### equipment.json
-Contém todos os equipamentos da aplicação.
+\*O Login pode ser feito com qualquer email ou senha.
+Exemplo:
 
-```JSONC
-[
-    {
-        // Identificador único do equipamento
-        "id": "a7c53eb1-4f5e-4eba-9764-ad205d0891f9",
-        // Chave estrangeira, utilizada para referenciar de qual modelo é esse equipamento 
-        "equipmentModelId": "a3540227-2f0e-4362-9517-92f41dabbfdf",
-        // Nome do Equipamento
-        "name": "CA-0001"
-    },
-    // ...
-]
-```
+email : email@email.com
 
-### equipmentState.json
-Contém todos os estados dos equipamentos.
+Senha: password
 
-```JSONC
-[
-    {
-        // Identificador único do estado de equipamento
-        "id": "0808344c-454b-4c36-89e8-d7687e692d57",
-        // Nome do estado
-        "name": "Operando",
-        // Cor utilizada para representar o estado
-        "color": "#2ecc71"
-    },
-    // ...
-]
-```
+## Funcionalidades
 
-### equipmentModel.json
-Contém todos os modelos de equipamento e a informação de qual é o valor por hora do equipamento em cada um dos estados.
+- Mapa de Equipamentos: Exibe a localização atual de todos os equipamentos em um mapa interativo, mostrando detalhes como status e data/hora da última atualização.
 
-```JSONC
-[
-    {
-        // Identificador único do modelo de equipamento
-        "id": "a3540227-2f0e-4362-9517-92f41dabbfdf",
-        // Nome do modelo de equipamento
-        "name": "Caminhão de carga",
-        // Valor gerado por hora para cada estado
-        "hourlyEarnings": [
-            {
-                // Chave estrangeira, utilizada para referenciar de qual valor é esse estado
-                "equipmentStateId": "0808344c-454b-4c36-89e8-d7687e692d57",
-                // Valor gerado por hora nesse estado
-                "value": 100
-            },
-            // ...
-        ]
-    },
-    // ...
-]
-```
+- Histórico de Equipamentos: Apresenta uma tabela com os equipamentos, permitindo filtragem por nome e modelo. Ao expandir um equipamento na tabela, você acessa informações detalhadas, como status e data/hora. Inclui também filtros por status e um gráfico que exibe a porcentagem de produtividade com base no total de horas operadas.
 
-### equipmentStateHistory.json
-O histórico de estados por equipamento.
+## Estrutura do Projeto:
 
-```JSONC
-[
-    {
-        // Chave estrangeira, utilizada para referenciar de qual equipamento são esses estados
-        "equipmentId": "a7c53eb1-4f5e-4eba-9764-ad205d0891f9",
-        // Histórico de estados do equipamento
-        "states": [
-            {
-                // Data em que o equipamento declarou estar nesse estado
-                "date": "2021-02-01T03:00:00.000Z",
-                // Chave estrangeira, utilizada para referenciar qual é o estado
-                // que o equipamento estava nesse momento
-                "equipmentStateId": "03b2d446-e3ba-4c82-8dc2-a5611fea6e1f"
-            },
-            // ...
-        ]
-    },
-    // ...
-]
-```
+- - **`src/`**: Código-fonte da aplicação.
+    <!-- - **`components/`**: Contém componentes reutilizáveis em toda a aplicação. -->
+  - **`layout/`**: Contém o layout principal da aplicação.
+  - **`pages/`**: Páginas principais da aplicação.
+  - **`modules/components/`**: Componentes específicos para páginas principais.
+  - **`context/`**: Gerencia o estado da aplicação.
 
-### equipmentPositionHistory.json
-O histórico de posições dos equipamentos.
+## Gerenciamento de Rotas
 
-```JSONC
-[
-    {
-        // Chave estrangeira, utilizada para referenciar de qual equipamento são esses estados
-        "equipmentId": "a7c53eb1-4f5e-4eba-9764-ad205d0891f9",
-        // Posições do equipamento
-        "positions": [
-            {   
-                // Data em que a posição foi registrada
-                "date": "2021-02-01T03:00:00.000Z",
-                // Latitude WGS84
-                "lat": -19.126536,
-                // Longitude WGS84
-                "lon": -45.947756
-            },
-            // ...
-        ]
-    },
-    // ...
-]
-```
+A aplicação utiliza uma camada de roteamento para gerenciar a navegação entre diferentes páginas sem recarregar a página inteira. Isso é fundamental em uma SPA (Single Page Application) e oferece várias vantagens:
 
+- **Centralização da Lógica de Roteamento**: Todos os caminhos e componentes relacionados às rotas são mantidos em um único local, facilitando a manutenção e a escalabilidade da aplicação.
+- **Otimização do Desempenho**: Carregamento sob demanda dos componentes reduz o tempo de carregamento inicial e melhora a experiência do usuário.
+- **Facilidade de Manutenção**: Simplifica a gestão das rotas e torna mais fácil a atualização e manutenção da aplicação à medida que ela cresce.
 
-## O que é permitido
+A aplicação é centrada em dois componentes principais que são essenciais para a sua funcionalidade.
 
-* Vue, React e Angular.
+### Map
 
-* Typescript.
+**Descrição**: Componente para exibição das posições atuais dos equipamentos em um mapa interativo.
 
-* Bibliotecas de componentes (Element-ui, Vuetify, Bootstrap, etc.)
+**Tecnologias**: React, Leaflet, MUI
 
-* Bibliotecas e APIs de Mapas (Leaflet, Openlayers, Google Maps API, etc).
+**Principais Funcionalidades**:
 
-* Template engines (Pug, Ejs, etc).
+- **Visualização de Equipamentos**: Utiliza o `MapContainer` do Leaflet para exibir um mapa com os equipamentos marcados.
+- **Ícone Personalizado**: Exibe ícones personalizados para cada equipamento usando `L.icon`.
+- **Popup de Equipamento**: Ao clicar em um marcador, um popup mostra o nome do equipamento, seu estado atual e a data/hora da última posição.
 
-* Gerenciamento de estado (Vuex, Redux, etc).
+**Funções**:
 
-* Frameworks CSS (Tailwind, Bulma, Bootstrap, Materialize, etc).
+- `getEquipmentState(equipmentId: string, date: string)`: Retorna o estado do equipamento na data fornecida.
+- `getLatestPosition(equipmentId: string)`: Retorna a última posição conhecida do equipamento.
 
-* Pré-processadores CSS (SCSS, SASS, LESS, etc).
+---
 
-* Frameworks baseados em Vue (Nuxt.js, Quasar, etc).
+### HistoricEquipament
 
-* Qualquer tecnologia complementar as citadas anteriormente são permitidas desde que seu uso seja justificável.
+**Descrição**: Componente para exibição e filtragem de equipamentos em uma tabela com detalhes e histórico.
 
-## O que não é permitido
+**Tecnologias**: React, MUI
 
-* Utilizar componentes ou códigos de terceiros que implementem algum dos requisitos.
+**Principais Funcionalidades**:
 
-## Recomendações
+- **Pesquisa e Filtros**: Permite pesquisar por nome do equipamento e filtrar por modelo.
+- **Tabela de Equipamentos**: Exibe uma tabela com colunas para nome, modelo, estado atual e uma opção para expandir os detalhes do equipamento.
+- **Detalhes Expandidos**: Mostra detalhes adicionais sobre o equipamento, incluindo um gráfico de produtividade, quando uma linha da tabela é expandida.
+- **Paginação**: Permite navegar por páginas de resultados com controle de número de linhas por página.
 
-* **Linter**: Desenvolva o projeto utilizando algum padrão de formatação de código.
+**Funções**:
 
-## Extras
-
-Aqui são listados algumas sugestões para você que quer ir além do desafio inicial. Lembrando que você não precisa se limitar a essas sugestões, se tiver pensado em outra funcionalidade que considera relevante ao escopo da aplicação fique à vontade para implementá-la.
-
-* **Filtros**: Filtrar as visualizações por estado atual ou modelo de equipamento.
-
-* **Pesquisa**: Ser possível pesquisar por dados de um equipamento especifico.
-
-* **Percentual de Produtividade do equipamento**: Calcular a produtividade do equipamento, que consiste em uma relação das horas produtivas (em estado "Operando") em relação ao total de horas. Exemplo se um equipamento teve 18 horas operando no dia a formula deve ser `18 / 24 * 100 = 75% de produtividade`.
-
-* **Ganho por equipamento**: Calcular o ganho do equipamento com base no valor recebido por hora informado no Modelo de Equipamento. Exemplo se um modelo de equipamento gera 100 por hora em operando e -20 em manutenção, então se esse equipamento ficou 10 horas em operação e 4 em manutenção ele gerou `10 * 100 + 4 * -20 = 920`.
-
-* **Diferenciar os equipamentos**: Diferenciar visualmente os equipamentos por modelo de equipamento na visualização do mapa.
-
-* **Histórico de posições**: Que seja possível visualizar o histórico de posições de um equipamento, mostrando o trajeto realizado por ele.
-
-* **Testes**: Desenvolva testes que achar necessário para a aplicação, seja testes unitários, testes automatizados, testes de acessibilidade, etc.
-
-* **Documentação**: Gerar uma documentação da aplicação. A documentação pode incluir detalhes sobre as decisões tomadas, especificação dos componentes desenvolvidos, instruções de uso dentre outras informações que achar relevantes.
-
-## Entregas
-
-Para realizar a entrega do teste você deve:
-
-* Relizar o fork e clonar esse repositório para sua máquina.
-  
-* Criar uma branch com o nome de `teste/[NOME]`.
-  * `[NOME]`: Seu nome.
-  * Exemplos: `teste/fulano-da-silva`; `teste/beltrano-primeiro-gomes`.
-  
-* Faça um commit da sua branch com a implementação do teste.
-  
-* Realize o pull request da sua branch nesse repositório.
+- `handleSearch(event: React.ChangeEvent<HTMLInputElement>)`: Atualiza o search de pesquisa.
+- `handleFilterModel(event: SelectChangeEvent<string>)`: Atualiza o filtro por modelo.
+- `handleChangePage(event: React.MouseEvent<HTMLButtonElement> | null, newPage: number)`: Altera a página de resultados.
+- `handleChangeRowsPerPage(event: React.ChangeEvent<HTMLInputElement>)`: Altera o número de linhas por página.
+- `calculateProductivity(equipmentId: string)`: Calcula a porcentagem de produtividade com base no histórico de estados do equipamento.

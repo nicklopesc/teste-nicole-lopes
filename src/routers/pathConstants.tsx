@@ -1,5 +1,6 @@
 export const PathConstants = {
-  HOME: "/home",
   PROJECT: "/",
-  SAIR: "/logout",
+  SAIR: "/",
+  MAP: "/map",
+  HISTORICEQUIPMENT: "/historico-equipamento",
 };
