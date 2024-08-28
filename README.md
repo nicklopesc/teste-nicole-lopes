@@ -109,5 +109,8 @@ A aplicação é centrada em dois componentes principais que são essenciais par
 - `handleChangeRowsPerPage(event: React.ChangeEvent<HTMLInputElement>)`: Altera o número de linhas por página.
 - `calculateProductivity(equipmentId: string)`: Calcula a porcentagem de produtividade com base no histórico de estados do equipamento.
 
+## Imagens da aplicação
+
+![alt text](image-2.png)
 ![alt text](image-1.png)
 ![alt text](image.png)
